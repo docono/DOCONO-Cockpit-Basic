@@ -207,7 +207,6 @@ module.exports = function (grunt) {
                 command: [
                     'cd ..',
                     'git submodule add https://github.com/aheinze/cockpit.git',
-                    'git checkout tags/0.13.0'
                 ].join('&&')
             }
         }
