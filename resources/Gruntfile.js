@@ -14,12 +14,14 @@ module.exports = function (grunt) {
         css: '../public_html/static/css',
         scss: 'static/scss',
         scripts: '../public_html/static/js',
+        scripts_lib: '../public_html/static/js/lib',
         scripts_src: 'static/js',
         images: '../public_html/static/img',
         images_src: 'static/img',
         foundation_scss: 'bower_components/foundation/scss',
         foundation_src: 'bower_components/foundation/js',
-        jquery_src: 'bower_components/jquery/dist'
+        jquery_src: 'bower_components/jquery/dist',
+        modernizr_src: 'bower_components/modernizr'
     };
 
 
@@ -35,12 +37,12 @@ module.exports = function (grunt) {
             },
             dist: {
                 files: {
-                    '<%= globalConfig.css %>/app.css': '<%= globalConfig.scss %>/app.scss'
+                    '<%= globalConfig.css %>/main.min.css': '<%= globalConfig.scss %>/main.scss'
                 },
                 options: {
                     outputStyle: 'compressed', // 'expanded', 'nested', 'compressed', 'compact'
                     // SourceMap for Debug
-                    sourceMap: false
+                    sourceMap: true
                 }
             }
         },
@@ -64,7 +66,7 @@ module.exports = function (grunt) {
             production: {
                 options: {
                     // SourceMap for Debug
-                    sourceMap: false
+                    sourceMap: true
                 },
                 files: {
                     '<%= globalConfig.scripts %>/main.min.js': ['<%= globalConfig.scripts %>/main.min.js']
@@ -72,6 +74,26 @@ module.exports = function (grunt) {
             }
         },
 
+
+        // MODERNIZR
+        modernizr: {
+            dist: {
+                // [REQUIRED] Path to the build you're using for development.
+                "devFile" : "<%= globalConfig.modernizr_src %>/modernizr.js",
+
+                // Path to save out the built file.
+                "outputFile" : "<%= globalConfig.scripts_lib %>/modernizr.min.js",
+
+                // Based on default settings on http://modernizr.com/download/
+                "extra" : {
+                    "shiv" : true,
+                    "printshiv" : false,
+                    "load" : true,
+                    "mq" : false,
+                    "cssclasses" : true
+                }
+            }
+        },
 
         // WATCHER
         watch: {
@@ -86,7 +108,7 @@ module.exports = function (grunt) {
                     '<%= globalConfig.jquery_src %>/jquery.js',
                     '<%= globalConfig.scripts_src %>/**/*.js'
                 ],
-                tasks: ['concat', 'uglify']
+                tasks: ['concat', 'uglify', 'modernizr']
             }
         },
 
@@ -103,7 +125,7 @@ module.exports = function (grunt) {
                         quality: 85,
                         // Die Bilder werden in ihrer Größe halbiert.
                         width: '50%'
-                    },{
+                    }, {
                         rename: false,
                         quality: 85,
                         width: '100%',
@@ -175,7 +197,7 @@ module.exports = function (grunt) {
         browserSync: {
             // Wenn Änderungen an diesen Dateien festegestellt werden, lade alle Fenster neu!
             bsFiles: {
-                src : [
+                src: [
                     '../public_html/css/*.css',
                     '../public_html/*.html'
                 ]
@@ -222,6 +244,6 @@ module.exports = function (grunt) {
     grunt.registerTask('Optimize-Images', ['responsive_images', 'imagemin']);
     grunt.registerTask('Generate-Touch-Icons', ['favicons']);
     grunt.registerTask('Browser-Sync', ['browserSync']);
-    grunt.registerTask('Cockpit-CMS', ['shell:cockpit']);
+    grunt.registerTask('Cockpit-CMS-Download', ['shell:cockpit']);
 
 };
