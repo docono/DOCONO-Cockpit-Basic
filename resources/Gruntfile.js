@@ -35,12 +35,12 @@ module.exports = function (grunt) {
             },
             dist: {
                 files: {
-                    '<%= globalConfig.css %>/app.css': '<%= globalConfig.scss %>/app.scss'
+                    '<%= globalConfig.css %>/main.min.css': '<%= globalConfig.scss %>/main.scss'
                 },
                 options: {
                     outputStyle: 'compressed', // 'expanded', 'nested', 'compressed', 'compact'
                     // SourceMap for Debug
-                    sourceMap: false
+                    sourceMap: true
                 }
             }
         },
@@ -64,7 +64,7 @@ module.exports = function (grunt) {
             production: {
                 options: {
                     // SourceMap for Debug
-                    sourceMap: false
+                    sourceMap: true
                 },
                 files: {
                     '<%= globalConfig.scripts %>/main.min.js': ['<%= globalConfig.scripts %>/main.min.js']
@@ -208,7 +208,14 @@ module.exports = function (grunt) {
                     'cd ..',
                     'git submodule add https://github.com/aheinze/cockpit.git',
                 ].join('&&')
-            }
+            },
+            //modernizr: {
+            //    command:[
+            //        'cd ../public_html/static/js',
+            //        'git submodule add https://github.com/Modernizr/Modernizr.git',
+            //        'git checkout tag v.2.8.3'
+            //    ].join('&&')
+            //}
         }
 
 
@@ -222,6 +229,7 @@ module.exports = function (grunt) {
     grunt.registerTask('Optimize-Images', ['responsive_images', 'imagemin']);
     grunt.registerTask('Generate-Touch-Icons', ['favicons']);
     grunt.registerTask('Browser-Sync', ['browserSync']);
-    grunt.registerTask('Cockpit-CMS', ['shell:cockpit']);
+    grunt.registerTask('Cockpit-CMS-Download', ['shell:cockpit']);
+    //grunt.registerTask('Modernizr', ['shell:modernizr']);
 
 };

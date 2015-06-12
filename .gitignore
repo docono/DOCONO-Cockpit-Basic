@@ -2,3 +2,5 @@
 modules.xml
 DOCONO Basic Installation.iml
 .name
+public_html/static/css
+public_html/static/js
